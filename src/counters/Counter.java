@@ -3,22 +3,18 @@ package counters;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import pdp.nazarevych.concurency.Result;
 
 public abstract class Counter {
 	Logger log = Logger.getLogger(Counter.class.getName());
-	private String directoryPath;
-	private Map <String, Integer> countResults = new HashMap<String, Integer>();
-	private List <Result> sortedCountResults = new ArrayList<Result>();
-	
-//	private Map <String, Integer> sortedCountResults;
+	protected String directoryPath;
+	private static Map <String, Integer> countResults = new ConcurrentHashMap<String, Integer>();
+	private static List <Result> sortedCountResults= new ArrayList<Result>();
 	private static int  MAX_NUMBER_OF_POPULAR_FILES = 10;
 	
 	public void countFilesNumber(String path){
@@ -29,19 +25,18 @@ public abstract class Counter {
 			createdSortedCountResults(); 
 	}
 	
-	private void checkFile(File file) {
-		
+	protected void checkFile(File file) {
 		if (!file.exists()) {
 			log.warning("File, path = " + file.getAbsolutePath() + " - doesn`t exist");
 		}
 	}
 
-	private void createdSortedCountResults() {
+	protected void createdSortedCountResults() {
+			sortedCountResults = new ArrayList<Result>();
 		 for(String fileName: countResults.keySet()){
 			 sortedCountResults.add(new Result(fileName, countResults.get(fileName)));
 		 }
 		 Collections.sort(sortedCountResults);
-		 System.out.println(sortedCountResults.toString());
 	}
 
 	abstract protected void countFiles(File file);
@@ -70,7 +65,10 @@ public abstract class Counter {
 	 */
 	
 	public void showStatistic(){
+		createdSortedCountResults(); 
 		if ( !countResults.isEmpty() ){
+			System.out.println();
+			System.out.println("========= Results from " + this.getClass().getName()+"===============");
 			System.out.println("Directory " + directoryPath + " includes " + countResults.size() + " files"  );
 			System.out.println("The most popular files are :");
 			int maxNumberOfPopularFiles = (sortedCountResults.size() < MAX_NUMBER_OF_POPULAR_FILES)? sortedCountResults.size():MAX_NUMBER_OF_POPULAR_FILES;
@@ -82,5 +80,8 @@ public abstract class Counter {
 				}
 			}
 		}
+		countResults = new ConcurrentHashMap<String, Integer>();
+		sortedCountResults = new ArrayList<Result>();
+		
 	}
 }

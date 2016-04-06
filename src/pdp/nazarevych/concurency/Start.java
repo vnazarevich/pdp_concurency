@@ -11,8 +11,8 @@ import counters.SimpleCounter;
 
 public class Start {
 	private static Set <Counter> counters  = new HashSet<Counter>(){{
-		add(new SimpleCounter());
 		add(new MultiThreadCounter());
+		add(new SimpleCounter());
 	}};
 	
 	//private static ExecutorService executor = Executors.newFixedThreadPool(10);
@@ -27,6 +27,12 @@ public class Start {
 		int filesNumber;
 		for(Counter counter: counters){
 			counter.countFilesNumber(directoryPath);
+//			try {
+//				Thread.currentThread().sleep(10000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			counter.showStatistic();
 		}
 	}
