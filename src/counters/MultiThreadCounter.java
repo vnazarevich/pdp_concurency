@@ -29,6 +29,7 @@ public class MultiThreadCounter extends Counter implements Callable{
 				executor.submit(new MultiThreadCounter(f));
 			} else{
 				addToCountResults(f.getName());
+				
 			}
 		}
 		
