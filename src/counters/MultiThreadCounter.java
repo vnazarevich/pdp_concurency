@@ -7,10 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 import main.Result;
 
 public class MultiThreadCounter extends Counter implements Callable {
+	private static AtomicLong countWork = new AtomicLong(0);
 	private static ExecutorService executor = Executors.newFixedThreadPool(1100);
 	// private static ConcurrentHashMap<String, Integer> countResults = new
 	// ConcurrentHashMap<>();
@@ -33,10 +35,10 @@ public class MultiThreadCounter extends Counter implements Callable {
 		}
 		for (File f : files) {
 			if (f.isDirectory()) {
+				countWork.addAndGet(1);
 				executor.submit(new MultiThreadCounter(f));
 			} else {
 				addToCountResults(f.getName());
-
 			}
 		}
 	}
@@ -46,17 +48,6 @@ public class MultiThreadCounter extends Counter implements Callable {
 		countFiles(rootFile);
 		return null;
 	}
-
-	// @Override
-	// public void addToCountResults(String fileName){
-	// System.out.println("add file "+ fileName);
-	// if (countResults.containsKey(fileName)){
-	// countResults.put(fileName, countResults.get(fileName) + 1);
-	// }
-	// else{
-	// countResults.put(fileName, 1);
-	// }
-	// }
 
 	@Override
 	public void countFilesNumber(String path) {
