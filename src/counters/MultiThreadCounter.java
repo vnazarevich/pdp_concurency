@@ -8,13 +8,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import pdp.nazarevych.concurency.Result;
+import main.Result;
 
 public class MultiThreadCounter extends Counter implements Callable {
 	private static ExecutorService executor = Executors.newFixedThreadPool(1100);
 	// private static ConcurrentHashMap<String, Integer> countResults = new
 	// ConcurrentHashMap<>();
 	private File rootFile;
+	private Result r;
 
 	public MultiThreadCounter(File rootFile) {
 		this.rootFile = rootFile;

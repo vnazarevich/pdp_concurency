@@ -1,4 +1,4 @@
-package pdp.nazarevych.concurency;
+package main;
 
 import java.util.HashSet;
 import java.util.Set;

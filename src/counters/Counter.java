@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import pdp.nazarevych.concurency.Result;
+import main.Result;
 
 public abstract class Counter {
 	Logger log = Logger.getLogger(Counter.class.getName());

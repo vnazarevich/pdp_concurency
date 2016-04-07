@@ -1,4 +1,4 @@
-package pdp.nazarevych.concurency;
+package main;
 
 public class Result implements Comparable<Result> {
 	private String fileName;
