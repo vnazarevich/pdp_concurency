@@ -17,6 +17,8 @@ public abstract class Counter {
 	private static List <Result> sortedCountResults= new ArrayList<Result>();
 	private static int  MAX_NUMBER_OF_POPULAR_FILES = 10;
 	
+	abstract protected void countFiles(File file);
+	
 	public void countFilesNumber(String path){
 			directoryPath = path;
 			File file = new File(path);
@@ -39,15 +41,6 @@ public abstract class Counter {
 		 Collections.sort(sortedCountResults);
 	}
 
-	abstract protected void countFiles(File file);
-
- 	public Map<String, Integer> getCountResults() {
-		return countResults;
-	}
-
-	public void setCountResults(Map<String, Integer> countResults) {
-		this.countResults = countResults;
-	}
 	
 	public void addToCountResults(String fileName){
 		if (countResults.containsKey(fileName)){
@@ -64,12 +57,13 @@ public abstract class Counter {
 	 * show most popular files names (number of founds > 1)
 	 */
 	
-	public void showStatistic(){
+	public void showStatistic(long timeDuration){
 		createdSortedCountResults(); 
 		if ( !countResults.isEmpty() ){
 			System.out.println();
 			System.out.println("========= Results from " + this.getClass().getName()+"===============");
 			System.out.println("Directory " + directoryPath + " includes " + countResults.size() + " files"  );
+			System.out.println("Duration Of Counting = " + timeDuration + " ms ");
 			System.out.println("The most popular files are :");
 			int maxNumberOfPopularFiles = (sortedCountResults.size() < MAX_NUMBER_OF_POPULAR_FILES)? sortedCountResults.size():MAX_NUMBER_OF_POPULAR_FILES;
 			for (int i = 0; i < maxNumberOfPopularFiles-1; i++){

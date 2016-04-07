@@ -2,9 +2,6 @@ package main;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import counters.Counter;
 import counters.MultiThreadCounter;
 import counters.SimpleCounter;
@@ -19,21 +16,17 @@ public class Start {
 
 	public static void main(String[] args) {
 		//startCounters("c:\\Test\\");
-		//startCounters("C:\\");
-		startCounters("d:\\Private\\IT\\");
+	//	startCounters("C:\\");
+		//startCounters("d:\\Private\\IT\\");
+		startCounters("d:\\Курси\\");
 	}
 	
 	private static void startCounters(String directoryPath){
-		int filesNumber;
 		for(Counter counter: counters){
+			long startTime = System.currentTimeMillis();
 			counter.countFilesNumber(directoryPath);
-//			try {
-//				Thread.currentThread().sleep(10000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			counter.showStatistic();
+			long timeDuration = System.currentTimeMillis() - startTime ;
+			counter.showStatistic(timeDuration);
 		}
 	}
 

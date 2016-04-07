@@ -1,23 +1,14 @@
 package counters;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import main.Result;
-
-public class MultiThreadCounter extends Counter implements Callable {
+public class MultiThreadCounter extends Counter implements Runnable {
 	private static AtomicLong countWork = new AtomicLong(0);
-	private static ExecutorService executor = Executors.newFixedThreadPool(1100);
-	// private static ConcurrentHashMap<String, Integer> countResults = new
-	// ConcurrentHashMap<>();
+	private static ExecutorService executor = Executors.newFixedThreadPool(5);
 	private File rootFile;
-	private Result r;
 
 	public MultiThreadCounter(File rootFile) {
 		this.rootFile = rootFile;
@@ -35,7 +26,6 @@ public class MultiThreadCounter extends Counter implements Callable {
 		}
 		for (File f : files) {
 			if (f.isDirectory()) {
-				countWork.addAndGet(1);
 				executor.submit(new MultiThreadCounter(f));
 			} else {
 				addToCountResults(f.getName());
@@ -44,9 +34,10 @@ public class MultiThreadCounter extends Counter implements Callable {
 	}
 
 	@Override
-	public Object call() throws Exception {
+	public void run() {
+		countWork.incrementAndGet();
 		countFiles(rootFile);
-		return null;
+		countWork.decrementAndGet();
 	}
 
 	@Override
@@ -56,33 +47,20 @@ public class MultiThreadCounter extends Counter implements Callable {
 		checkFile(file);
 		countFiles(file);
 		checkExecutor();
-
 		createdSortedCountResults();
 	}
 
 	private void checkExecutor() {
-		try {
-			while (!executor.awaitTermination(100, TimeUnit.MILLISECONDS)) {
-				System.out.println("stil work");
-				try {
-
-					Thread.currentThread().sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		if (!(countWork.get() == 0)) {
+			try {
+				Thread.currentThread().sleep(50);
+				checkExecutor();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} else {
+			executor.shutdown();
 		}
-
-		// while (!executor.isTerminated()){
-		// try {
-		// Thread.currentThread().sleep(100);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }}
-
 	}
 
 }
