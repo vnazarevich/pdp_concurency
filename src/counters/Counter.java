@@ -66,7 +66,6 @@ public abstract class Counter {
 	 */
 	
 	public void showStatistic(long timeDuration){
-		//createdSortedCountResults(); 
 		if ( !sortedCountResults.isEmpty() ){
 			System.out.println();
 			System.out.println("========= Results from " + this.getClass().getName()+"===============");
@@ -82,8 +81,7 @@ public abstract class Counter {
 				}
 			}
 		}
-		countResults = new ConcurrentHashMap<String, Integer>();
-		sortedCountResults.clear(); // = new ArrayList<Result>();
-
+		countResults.clear();
+		sortedCountResults.clear(); 
 	}
 }

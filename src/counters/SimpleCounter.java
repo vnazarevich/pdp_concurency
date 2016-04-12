@@ -18,30 +18,5 @@ public class SimpleCounter extends Counter {
 				addToCountResults(f.getName());
 			}
 		}
-		
 	}
-	
-	/*
-	 * recursive count
-	 * 
-	 * if directory does not exist - return -1
-	 * else return number of files
-	 */
-//	protected int getFilesNumber(File file) {
-//		File[] files = file.listFiles();
-//		int number = 0;
-//		if (files == null) {
-//			return 0;
-//		}
-//		for (File f : files) {
-//			if (f.isDirectory()){
-//				number += getFilesNumber(f);
-//			} else{
-//				addToCountResults(f.getName());
-//				number++;
-//			}
-//		}
-//		return number;
-//	}
-
 }

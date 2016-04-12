@@ -9,14 +9,17 @@ import counters.MultiThreadCounter;
 import counters.SimpleCounter;
 
 public class Start {
-	private static List <Counter> counters  = new ArrayList<Counter>(){{
+	private static final List <Counter> counters  = new ArrayList<Counter>(){
+		private static final long serialVersionUID = 1L;
+
+	{
 		add(new SimpleCounter());
 		add(new MultiThreadCounter());
 		add(new ForkJoinCounter());
 	}};
 
 	public static void main(String[] args) {
-		startCounters("d:\\Курси\\Projects\\");
+		startCounters("d:\\Курси\\");
 	}
 	
 	private static void startCounters(String directoryPath){

@@ -56,7 +56,7 @@ public class MultiThreadCounter extends Counter implements Runnable {
 	private void checkExecutor() {
 		if (!(countWork.get() == 0)) {
 			try {
-				Thread.currentThread().sleep(150);
+				Thread.currentThread().sleep(50);
 				checkExecutor();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
