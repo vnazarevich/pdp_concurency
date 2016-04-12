@@ -13,8 +13,8 @@ import main.Result;
 public abstract class Counter {
 	Logger log = Logger.getLogger(Counter.class.getName());
 	protected String directoryPath;
-	private static Map <String, Integer> countResults = new ConcurrentHashMap<String, Integer>();
-	private static List <Result> sortedCountResults= new ArrayList<Result>();
+	private  static Map <String, Integer> countResults = new ConcurrentHashMap<String, Integer>();
+	private  List <Result> sortedCountResults= new ArrayList<Result>();
 	private static int  MAX_NUMBER_OF_POPULAR_FILES = 10;
 	
 	abstract protected void countFiles(File file);
@@ -40,6 +40,15 @@ public abstract class Counter {
 		 }
 		 Collections.sort(sortedCountResults);
 	}
+	
+	protected void createdSortedCountResults(Map <String, Integer> countResults) {
+		sortedCountResults = new ArrayList<Result>();
+	 for(String fileName: countResults.keySet()){
+		 sortedCountResults.add(new Result(fileName, countResults.get(fileName)));
+	 }
+	 Collections.sort(sortedCountResults);
+	 System.out.println(sortedCountResults);
+}
 
 	
 	public void addToCountResults(String fileName){
@@ -60,6 +69,8 @@ public abstract class Counter {
 	public void showStatistic(long timeDuration){
 		createdSortedCountResults(); 
 		if ( !countResults.isEmpty() ){
+			System.out.println(countResults);
+			System.out.println(sortedCountResults);
 			System.out.println();
 			System.out.println("========= Results from " + this.getClass().getName()+"===============");
 			System.out.println("Directory " + directoryPath + " includes " + countResults.size() + " files"  );
@@ -70,12 +81,12 @@ public abstract class Counter {
 				if(sortedCountResults.get(i).getNumber() > 1){
 					System.out.println(sortedCountResults.get(i).toString());
 				} else {
-					return;
+					break;
 				}
 			}
 		}
 		countResults = new ConcurrentHashMap<String, Integer>();
-		sortedCountResults = new ArrayList<Result>();
-		
+		sortedCountResults.clear(); // = new ArrayList<Result>();
+
 	}
 }

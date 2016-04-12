@@ -18,6 +18,7 @@ public class SimpleCounter extends Counter {
 				addToCountResults(f.getName());
 			}
 		}
+		
 	}
 	
 	/*
