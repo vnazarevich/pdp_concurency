@@ -47,7 +47,6 @@ public abstract class Counter {
 		 sortedCountResults.add(new Result(fileName, countResults.get(fileName)));
 	 }
 	 Collections.sort(sortedCountResults);
-	 System.out.println(sortedCountResults);
 }
 
 	
@@ -67,13 +66,11 @@ public abstract class Counter {
 	 */
 	
 	public void showStatistic(long timeDuration){
-		createdSortedCountResults(); 
-		if ( !countResults.isEmpty() ){
-			System.out.println(countResults);
-			System.out.println(sortedCountResults);
+		//createdSortedCountResults(); 
+		if ( !sortedCountResults.isEmpty() ){
 			System.out.println();
 			System.out.println("========= Results from " + this.getClass().getName()+"===============");
-			System.out.println("Directory " + directoryPath + " includes " + countResults.size() + " files"  );
+			System.out.println("Directory " + directoryPath + " includes " + sortedCountResults.size() + " files"  );
 			System.out.println("Duration Of Counting = " + timeDuration + " ms ");
 			System.out.println("The most popular files are :");
 			int maxNumberOfPopularFiles = (sortedCountResults.size() < MAX_NUMBER_OF_POPULAR_FILES)? sortedCountResults.size():MAX_NUMBER_OF_POPULAR_FILES;

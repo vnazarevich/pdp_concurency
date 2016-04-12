@@ -10,24 +10,17 @@ import counters.SimpleCounter;
 
 public class Start {
 	private static List <Counter> counters  = new ArrayList<Counter>(){{
-	//	add(new SimpleCounter());
-		//add(new ForkJoinCounter());
+		add(new SimpleCounter());
 		add(new MultiThreadCounter());
+		add(new ForkJoinCounter());
 	}};
-	
-	//private static ExecutorService executor = Executors.newFixedThreadPool(10);
 
 	public static void main(String[] args) {
-		startCounters("c:\\Test\\");
-	//	startCounters("C:\\");
-		//startCounters("d:\\Private\\IT\\");
-//		startCounters("d:\\Курси\\");
-		//startCounters("d:\\Курси\\Projects\\");
+		startCounters("d:\\Курси\\Projects\\");
 	}
 	
 	private static void startCounters(String directoryPath){
 		for(Counter counter: counters){
-			System.out.println("1");
 			long startTime = System.currentTimeMillis();
 			counter.countFilesNumber(directoryPath);
 			long timeDuration = System.currentTimeMillis() - startTime ;
